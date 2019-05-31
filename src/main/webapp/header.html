@@ -1,0 +1,99 @@
+<!-- 头部 start -->
+    <header id="header">
+        <div class="top_banner">
+            <img src="images/top_banner.jpg" alt="">
+        </div>
+        <div class="shortcut">
+            <!-- 未登录状态  -->
+            <div class="login_out">
+                <a href="login.html">登录</a>
+                <a href="register.html">注册</a>
+            </div>
+            <!-- 登录状态  -->
+            <div class="login" style="display: none;">
+                <span>欢迎回来，admin</span>
+                <a href="myfavorite.html?pageNumber=1" class="collection">我的收藏</a>
+                <a href="user?action=logout">退出</a>
+            </div>
+        </div>
+        <script>
+            //页面加载完成，发Ajax请求
+            $(function () {
+                $.post("user","action=getLoginUser",function(result){
+                    //result = {"ok":true,"data":"用户姓名", "msg":""}
+                    if (result.ok) {
+                        //已登录状态
+                        $(".login>span").html("欢迎回来，" + result.data);
+                        //把登录状态的内容，显示出来
+                        $(".login").show();
+                        //把未登录状态的内容，隐藏掉
+                        $(".login_out").hide();
+                    }
+                },"json");
+            })
+        </script>
+        <div class="header_wrap">
+            <div class="topbar">
+                <div class="logo">
+                    <a href="/"><img src="images/logo.jpg" alt=""></a>
+                </div>
+                <div class="search">
+                    <input name="" type="text" placeholder="请输入路线名称" class="search_input" autocomplete="off">
+                    <a href="javascript:;" class="search-button">搜索</a>
+                    <script>
+                        $(function () {
+                            $(".search-button").click(function () {
+                                location.href = "route_list.html?rname=" + $(".search_input").val() + "&pageNumber=1";
+                            });
+                        });
+                    </script>
+                </div>
+                <div class="hottel">
+                    <div class="hot_pic">
+                        <img src="images/hot_tel.jpg" alt="">
+                    </div>
+                    <div class="hot_tel">
+                        <p class="hot_time">客服热线(9:00-6:00)</p>
+                        <p class="hot_num">400-618-9090</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- 头部 end -->
+     <!-- 首页导航 -->
+    <div class="navitem">
+        <ul class="nav">
+            <li class="nav-active"><a href="index.html">首页</a></li>
+            <li><a href="route_list.html">门票</a></li>
+            <li><a href="route_list.html">酒店</a></li>
+            <li><a href="route_list.html">香港车票</a></li>
+            <li><a href="route_list.html">出境游</a></li>
+            <li><a href="route_list.html">国内游</a></li>
+            <li><a href="route_list.html">港澳游</a></li>
+            <li><a href="route_list.html">抱团定制</a></li>
+            <li><a href="route_list.html">全球自由行</a></li>
+            <li><a href="favoriterank.html">收藏排行榜</a></li>
+        </ul>
+    </div>
+<script>
+    $(function () {
+        //发Ajax请求，得到所有的分类
+        $.post("category","action=queryAll",function (result) {
+            if (result.ok) {
+                var str = result.data;//字符串，里边的数据是json格式的所有分类
+                //要把str字符串转换成json对象 数组形式
+                var categoryList = eval("(" + str + ")");
+                var categoryHtml = "<li class=\"nav-active\"><a href=\"index.html\">首页</a></li>";
+                for(var category of categoryList){
+                    categoryHtml += "<li><a href=\"route_list.html?cid="+category.cid+"&pageNumber=1\">"+category.cname+"</a></li>";
+                }
+                categoryHtml += "<li><a href=\"favoriterank.html?pageNumber=1\">收藏排行榜</a></li>";
+                $(".nav").html(categoryHtml);
+            }else{
+                alert(result.msg);
+            }
+        },"json");
+    });
+</script>
+    

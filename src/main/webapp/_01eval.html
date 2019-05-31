@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>eval函数</title>
+</head>
+<body>
+
+<script>
+    //var str = "var a=1;var b=2; alert(a+b);";
+    //eval(str);
+
+    /*
+        var obj = {"aa":"AA", "bb":"BB"}
+        var arr = [{"aa":"AA", "bb":"BB"}, {"aaa":"AAA", "bbb":"BBB"}];
+     */
+    //var str = "{\"aa\":\"AA\", \"bb\":\"BB\"}";
+    var str = "([{\"aa\":\"AA\", \"bb\":\"BB\"}, {\"aa\":\"AAA\", \"bbb\":\"BBB\"}])";
+    var arr = eval(str);
+    for(var o of arr){
+        alert(o.aa);
+    }
+
+    /*{
+        var a = b;
+    }*/
+
+    /*var str = "({\"aa\":\"AA\", \"bb\":\"BB\"})";
+    var obj = eval(str);
+    alert(obj.aa);*/
+</script>
+</body>
+</html>
